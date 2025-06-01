@@ -430,6 +430,7 @@
         </div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script>
         let currentStep = 1;
         let userData = {};
@@ -484,283 +485,196 @@
         }
 
         function downloadWorksheet() {
-            // Create the PDF content
-            const pdfContent = generatePDFContent();
-            
-            // Create and download the file
-            const blob = new Blob([pdfContent], { type: 'text/html' });
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'The-Why-Method-Worksheet.html';
-            document.body.appendChild(a);
-            a.click();
-            window.URL.revokeObjectURL(url);
-            document.body.removeChild(a);
-        }
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF({
+                orientation: 'portrait',
+                unit: 'mm',
+                format: 'a4'
+            });
 
-        function generatePDFContent() {
-            return `<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Why Method - Personal Worksheet</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Georgia', serif;
-            background: linear-gradient(135deg, #f5f3f0 0%, #e8e4df 100%);
-            color: #2c2c2c;
-            line-height: 1.6;
-            padding: 40px 20px;
-        }
-        
-        .worksheet {
-            max-width: 800px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            overflow: hidden;
-        }
-        
-        .header {
-            background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%);
-            color: white;
-            padding: 40px;
-            text-align: center;
-        }
-        
-        .header h1 {
-            font-size: 2.5em;
-            font-weight: 300;
-            margin-bottom: 10px;
-        }
-        
-        .header p {
-            font-size: 1.2em;
-            opacity: 0.9;
-        }
-        
-        .content {
-            padding: 50px;
-        }
-        
-        .section {
-            margin-bottom: 40px;
-            padding-bottom: 30px;
-            border-bottom: 1px solid #e0d5c7;
-        }
-        
-        .section:last-child {
-            border-bottom: none;
-        }
-        
-        .section h2 {
-            color: #d4af37;
-            font-size: 1.8em;
-            margin-bottom: 20px;
-            font-weight: 400;
-        }
-        
-        .section h3 {
-            color: #2c2c2c;
-            font-size: 1.3em;
-            margin: 25px 0 15px 0;
-            font-weight: 600;
-        }
-        
-        .user-response {
-            background: #f8f6f3;
-            padding: 20px;
-            border-radius: 10px;
-            border-left: 4px solid #d4af37;
-            margin: 15px 0;
-            font-style: italic;
-        }
-        
-        .prompt {
-            background: #2c2c2c;
-            color: white;
-            padding: 25px;
-            border-radius: 10px;
-            margin: 20px 0;
-        }
-        
-        .prompt h4 {
-            color: #d4af37;
-            margin-bottom: 10px;
-            font-size: 1.1em;
-        }
-        
-        .journal-space {
-            border: 2px dashed #d4af37;
-            padding: 30px;
-            margin: 15px 0;
-            border-radius: 10px;
-            min-height: 120px;
-            background: #fefefe;
-        }
-        
-        .journal-space::before {
-            content: "Write your reflection here...";
-            color: #999;
-            font-style: italic;
-        }
-        
-        .key-insights {
-            background: linear-gradient(135deg, #2c2c2c 0%, #1a1a1a 100%);
-            color: white;
-            padding: 30px;
-            border-radius: 15px;
-            margin: 30px 0;
-        }
-        
-        .key-insights h3 {
-            color: #d4af37;
-            margin-bottom: 20px;
-        }
-        
-        .key-insights ul {
-            list-style: none;
-            padding-left: 0;
-        }
-        
-        .key-insights li {
-            margin: 10px 0;
-            padding-left: 20px;
-            position: relative;
-        }
-        
-        .key-insights li::before {
-            content: "→";
-            color: #d4af37;
-            position: absolute;
-            left: 0;
-            font-weight: bold;
-        }
-        
-        @media print {
-            body {
-                background: white;
-            }
-            .worksheet {
-                box-shadow: none;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="worksheet">
-        <div class="header">
-            <h1>The Why Method</h1>
-            <p>Your Personal 7-Day Journey to Uncover Your Deeper Purpose</p>
-        </div>
-        
-        <div class="content">
-            <div class="section">
-                <h2>Your Goal & Why Foundation</h2>
-                
-                <h3>Your Goal:</h3>
-                <div class="user-response">${userData.goal}</div>
-                
-                <h3>Your Initial Why:</h3>
-                <div class="user-response">${userData.surfaceWhy}</div>
-                
-                <h3>Your Deeper Why:</h3>
-                <div class="user-response">${userData.deeperWhy}</div>
-                
-                <h3>What You're Moving Away From:</h3>
-                <div class="user-response">${userData.consequences}</div>
-            </div>
+            // Set colors
+            const goldColor = [196, 165, 114];
+            const darkColor = [44, 44, 44];
+            const lightGray = [102, 102, 102];
+
+            // Header with gradient-like effect
+            doc.setFillColor(...goldColor);
+            doc.rect(0, 0, 210, 50, 'F');
             
-            <div class="section">
-                <h2>7-Day Journal Practice</h2>
-                <p>Complete one prompt each day. Return to these questions when motivation wanes or obstacles arise. Your why will evolve and deepen with time.</p>
-                
-                <div class="prompt">
-                    <h4>Day 1: The Origin Story</h4>
-                    <p>When did you first realize this goal mattered to you? Write about the moment, experience, or gradual awareness that planted this seed. What were you feeling? What did you notice about yourself or your life that made this goal feel necessary?</p>
-                </div>
-                <div class="journal-space"></div>
-                
-                <div class="prompt">
-                    <h4>Day 2: The Identity Shift</h4>
-                    <p>Who do you need to become to achieve this goal? Describe the version of yourself that has already succeeded. How do they think differently? What habits do they have? What do they believe about themselves that you're still learning to believe?</p>
-                </div>
-                <div class="journal-space"></div>
-                
-                <div class="prompt">
-                    <h4>Day 3: The Ripple Effect</h4>
-                    <p>How will achieving this goal impact others in your life? Consider your family, friends, community, and even strangers who might be inspired by your example. What permission are you giving others by pursuing this path?</p>
-                </div>
-                <div class="journal-space"></div>
-                
-                <div class="prompt">
-                    <h4>Day 4: The Fear Beneath</h4>
-                    <p>What are you most afraid of in pursuing this goal? Go beyond fear of failure - what would success mean about you? What old stories about yourself would you have to let go of? What would you have to forgive yourself for?</p>
-                </div>
-                <div class="journal-space"></div>
-                
-                <div class="prompt">
-                    <h4>Day 5: The Non-Negotiable</h4>
-                    <p>When this goal gets difficult (and it will), what aspect of your why is absolutely non-negotiable? What part of this journey connects to your core values in a way that makes quitting feel like betraying yourself?</p>
-                </div>
-                <div class="journal-space"></div>
-                
-                <div class="prompt">
-                    <h4>Day 6: The Legacy Question</h4>
-                    <p>Imagine you're at the end of your life, looking back. If you don't pursue this goal, what will you regret? If you do pursue it - regardless of the outcome - what will you be proud of? What story do you want to tell about who you were and what you stood for?</p>
-                </div>
-                <div class="journal-space"></div>
-                
-                <div class="prompt">
-                    <h4>Day 7: The Daily Anchor</h4>
-                    <p>Distill your why into a single sentence or phrase that you can recall in moments of doubt. This is your anchor - the truth that brings you back to your purpose when the world tries to convince you to settle for less.</p>
-                </div>
-                <div class="journal-space"></div>
-            </div>
+            // Title
+            doc.setTextColor(255, 255, 255);
+            doc.setFontSize(28);
+            doc.setFont('helvetica', 'normal');
+            doc.text('The Why Method', 105, 25, { align: 'center' });
             
-            <div class="key-insights">
-                <h3>Key Insights for Your Journey</h3>
-                <ul>
-                    <li><strong>Clarity beats intensity:</strong> A clear why will carry you further than bursts of motivated action</li>
-                    <li><strong>Your why evolves:</strong> Return to these questions monthly as your understanding deepens</li>
-                    <li><strong>Process over outcome:</strong> Focus on who you're becoming through the pursuit, not just what you're achieving</li>
-                    <li><strong>Resistance is information:</strong> When you feel like quitting, that's often when you're closest to breakthrough</li>
-                    <li><strong>Purpose is personal:</strong> Your why doesn't need to make sense to anyone else - it just needs to be true for you</li>
-                </ul>
-            </div>
+            // Subtitle
+            doc.setFontSize(12);
+            doc.text('Your Personal 7-Day Journey to Uncover Your Deeper Purpose', 105, 35, { align: 'center' });
+
+            let yPos = 65;
             
-            <div class="section">
-                <h2>Monthly Check-In Questions</h2>
-                <p>Review these questions once per month to stay connected to your deeper purpose:</p>
-                
-                <div class="prompt">
-                    <h4>Alignment Check</h4>
-                    <p>Are my daily actions moving me toward or away from my goal? What needs to change?</p>
-                </div>
-                
-                <div class="prompt">
-                    <h4>Why Refinement</h4>
-                    <p>How has my understanding of why this matters evolved? What new layers have I discovered?</p>
-                </div>
-                
-                <div class="prompt">
-                    <h4>Obstacle Reframe</h4>
-                    <p>What challenges am I facing, and how can I view them as opportunities to strengthen my commitment?</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</body>
-</html>`;
+            // User's Goal & Why Foundation
+            doc.setTextColor(...darkColor);
+            doc.setFontSize(16);
+            doc.setFont('helvetica', 'bold');
+            doc.text('Your Goal & Why Foundation', 20, yPos);
+            yPos += 10;
+
+            // Goal
+            doc.setFontSize(11);
+            doc.setFont('helvetica', 'bold');
+            doc.text('Your Goal:', 20, yPos);
+            yPos += 6;
+            doc.setFont('helvetica', 'normal');
+            doc.setTextColor(...lightGray);
+            const goalLines = doc.splitTextToSize(userData.goal, 170);
+            doc.text(goalLines, 20, yPos);
+            yPos += goalLines.length * 5 + 5;
+
+            // Initial Why
+            doc.setTextColor(...darkColor);
+            doc.setFont('helvetica', 'bold');
+            doc.text('Your Initial Why:', 20, yPos);
+            yPos += 6;
+            doc.setFont('helvetica', 'normal');
+            doc.setTextColor(...lightGray);
+            const whyLines = doc.splitTextToSize(userData.surfaceWhy, 170);
+            doc.text(whyLines, 20, yPos);
+            yPos += whyLines.length * 5 + 5;
+
+            // Deeper Why
+            doc.setTextColor(...darkColor);
+            doc.setFont('helvetica', 'bold');
+            doc.text('Your Deeper Why:', 20, yPos);
+            yPos += 6;
+            doc.setFont('helvetica', 'normal');
+            doc.setTextColor(...lightGray);
+            const deeperLines = doc.splitTextToSize(userData.deeperWhy, 170);
+            doc.text(deeperLines, 20, yPos);
+            yPos += deeperLines.length * 5 + 5;
+
+            // What You're Moving Away From
+            doc.setTextColor(...darkColor);
+            doc.setFont('helvetica', 'bold');
+            doc.text('What You\'re Moving Away From:', 20, yPos);
+            yPos += 6;
+            doc.setFont('helvetica', 'normal');
+            doc.setTextColor(...lightGray);
+            const consequenceLines = doc.splitTextToSize(userData.consequences, 170);
+            doc.text(consequenceLines, 20, yPos);
+            yPos += consequenceLines.length * 5 + 15;
+
+            // Add new page for journal prompts
+            doc.addPage();
+            yPos = 30;
+
+            // 7-Day Journal Practice
+            doc.setTextColor(...goldColor);
+            doc.setFontSize(18);
+            doc.setFont('helvetica', 'bold');
+            doc.text('7-Day Journal Practice', 20, yPos);
+            yPos += 10;
+
+            doc.setTextColor(...darkColor);
+            doc.setFontSize(10);
+            doc.setFont('helvetica', 'normal');
+            doc.text('Complete one prompt each day. Return to these questions when motivation wanes.', 20, yPos);
+            yPos += 15;
+
+            // Journal prompts
+            const prompts = [
+                {
+                    day: 'Day 1: The Origin Story',
+                    text: 'When did you first realize this goal mattered to you? Write about the moment, experience, or gradual awareness that planted this seed. What were you feeling?'
+                },
+                {
+                    day: 'Day 2: The Identity Shift',
+                    text: 'Who do you need to become to achieve this goal? Describe the version of yourself that has already succeeded. How do they think differently?'
+                },
+                {
+                    day: 'Day 3: The Ripple Effect',
+                    text: 'How will achieving this goal impact others in your life? What permission are you giving others by pursuing this path?'
+                },
+                {
+                    day: 'Day 4: The Fear Beneath',
+                    text: 'What are you most afraid of in pursuing this goal? Go beyond fear of failure - what would success mean about you?'
+                },
+                {
+                    day: 'Day 5: The Non-Negotiable',
+                    text: 'When this goal gets difficult, what aspect of your why is absolutely non-negotiable? What connects to your core values?'
+                },
+                {
+                    day: 'Day 6: The Legacy Question',
+                    text: 'Imagine you\'re at the end of your life, looking back. If you don\'t pursue this goal, what will you regret?'
+                },
+                {
+                    day: 'Day 7: The Daily Anchor',
+                    text: 'Distill your why into a single sentence that you can recall in moments of doubt. This is your anchor.'
+                }
+            ];
+
+            prompts.forEach((prompt, index) => {
+                if (yPos > 250) {
+                    doc.addPage();
+                    yPos = 30;
+                }
+
+                // Day header
+                doc.setFillColor(...goldColor);
+                doc.rect(20, yPos - 5, 170, 8, 'F');
+                doc.setTextColor(255, 255, 255);
+                doc.setFontSize(11);
+                doc.setFont('helvetica', 'bold');
+                doc.text(prompt.day, 22, yPos);
+                yPos += 12;
+
+                // Prompt text
+                doc.setTextColor(...darkColor);
+                doc.setFontSize(9);
+                doc.setFont('helvetica', 'normal');
+                const promptLines = doc.splitTextToSize(prompt.text, 170);
+                doc.text(promptLines, 20, yPos);
+                yPos += promptLines.length * 4 + 2;
+
+                // Journal space
+                doc.setDrawColor(...goldColor);
+                doc.setLineWidth(0.5);
+                for (let i = 0; i < 6; i++) {
+                    doc.line(20, yPos + (i * 5), 190, yPos + (i * 5));
+                }
+                yPos += 35;
+            });
+
+            // Add insights page
+            doc.addPage();
+            yPos = 30;
+
+            doc.setTextColor(...goldColor);
+            doc.setFontSize(16);
+            doc.setFont('helvetica', 'bold');
+            doc.text('Key Insights for Your Journey', 20, yPos);
+            yPos += 15;
+
+            const insights = [
+                'Clarity beats intensity: A clear why will carry you further than bursts of motivated action',
+                'Your why evolves: Return to these questions monthly as your understanding deepens',
+                'Process over outcome: Focus on who you\'re becoming through the pursuit',
+                'Resistance is information: When you feel like quitting, you\'re often closest to breakthrough',
+                'Purpose is personal: Your why doesn\'t need to make sense to anyone else'
+            ];
+
+            doc.setTextColor(...darkColor);
+            doc.setFontSize(10);
+            doc.setFont('helvetica', 'normal');
+
+            insights.forEach(insight => {
+                const lines = doc.splitTextToSize('• ' + insight, 170);
+                doc.text(lines, 20, yPos);
+                yPos += lines.length * 5 + 3;
+            });
+
+            // Save the PDF
+            doc.save('The-Why-Method-Worksheet.pdf');
         }
     </script>
 </body>
