@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Why Method - Discover Your Deeper Purpose</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Avenir', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: #f8f6f3;
+            color: #2c2c2c;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 0;
+            padding: 120px 60px 100px;
+            background: linear-gradient(160deg, #c4a572 0%, #d4af37 40%, #e8c547 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="20" cy="20" r="1" fill="white" opacity="0.1"/><circle cx="80" cy="40" r="1" fill="white" opacity="0.08"/><circle cx="40" cy="80" r="1" fill="white" opacity="0.12"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            pointer-events: none;
+        }
+
+        .hero h1 {
+            font-size: 4.2em;
+            font-weight: 200;
+            margin-bottom: 25px;
+            letter-spacing: -2px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero .subtitle {
+            font-size: 1.4em;
+            opacity: 0.95;
+            margin-bottom: 50px;
+            font-weight: 300;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin: 60px 0 0 0;
+            padding: 0;
+            background: transparent;
+            border-radius: 0;
+            backdrop-filter: none;
+            box-shadow: none;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat {
+            text-align: center;
+            background: rgba(255,255,255,0.15);
+            padding: 30px 20px;
+            border-radius: 20px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .stat-number {
+            font-size: 3.2em;
+            font-weight: 100;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .stat-text {
+            font-size: 0.95em;
+            font-weight: 300;
+            line-height: 1.4;
+        }
+
+        .journey-container {
+            background: white;
+            border-radius: 0;
+            padding: 80px 60px;
+            box-shadow: none;
+            margin: 0;
+            border-top: 1px solid #f0ede8;
+        }
+
+        .step {
+            margin-bottom: 40px;
+            display: none;
+        }
+
+        .step.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .step h2 {
+            color: #c4a572;
+            font-size: 2.8em;
+            margin-bottom: 25px;
+            font-weight: 200;
+            letter-spacing: -1px;
+        }
+
+        .step p {
+            font-size: 1.15em;
+            margin-bottom: 35px;
+            color: #666;
+            font-weight: 300;
+            line-height: 1.7;
+        }
+
+        .input-group {
+            margin: 40px 0;
+        }
+
+        .input-group label {
+            display: block;
+            font-weight: 400;
+            margin-bottom: 15px;
+            color: #2c2c2c;
+            font-size: 1.1em;
+            letter-spacing: 0.3px;
+        }
+
+        .input-group textarea,
+        .input-group input {
+            width: 100%;
+            padding: 20px;
+            border: 1px solid #e8e4df;
+            border-radius: 8px;
+            font-size: 1em;
+            font-family: inherit;
+            resize: vertical;
+            min-height: 140px;
+            transition: all 0.3s ease;
+            background: #fafafa;
+            font-weight: 300;
+        }
+
+        .input-group textarea:focus,
+        .input-group input:focus {
+            outline: none;
+            border-color: #c4a572;
+            box-shadow: 0 0 0 3px rgba(196, 165, 114, 0.1);
+            background: white;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #c4a572 0%, #d4af37 100%);
+            color: white;
+            border: none;
+            padding: 18px 40px;
+            font-size: 1.05em;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            font-size: 0.9em;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(196, 165, 114, 0.3);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 2px;
+            background: #f0ede8;
+            border-radius: 1px;
+            margin-bottom: 50px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #c4a572 0%, #d4af37 100%);
+            width: 0%;
+            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .download-section {
+            text-align: center;
+            padding: 80px 60px;
+            background: linear-gradient(135deg, #2c2c2c 0%, #1a1a1a 100%);
+            color: white;
+            border-radius: 0;
+            margin: 0;
+            position: relative;
+        }
+
+        .download-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="dots" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1" fill="white" opacity="0.03"/></pattern></defs><rect width="100" height="100" fill="url(%23dots)"/></svg>');
+            pointer-events: none;
+        }
+
+        .download-section h2 {
+            font-size: 2.8em;
+            margin-bottom: 25px;
+            color: #c4a572;
+            font-weight: 200;
+            position: relative;
+            z-index: 1;
+        }
+
+        .download-section p {
+            font-size: 1.2em;
+            margin-bottom: 40px;
+            opacity: 0.9;
+            font-weight: 300;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .download-btn {
+            background: linear-gradient(135deg, #c4a572 0%, #d4af37 100%);
+            color: white;
+            text-decoration: none;
+            padding: 20px 50px;
+            font-size: 1.1em;
+            border-radius: 50px;
+            display: inline-block;
+            font-weight: 400;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.95em;
+            position: relative;
+            z-index: 1;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(196, 165, 114, 0.4);
+        }
+
+        .deeper-why {
+            background: #f8f6f3;
+            padding: 35px;
+            border-radius: 12px;
+            margin: 40px 0;
+            border-left: 3px solid #c4a572;
+            border: 1px solid #f0ede8;
+        }
+
+        .deeper-why h3 {
+            color: #c4a572;
+            margin-bottom: 20px;
+            font-size: 1.2em;
+            font-weight: 400;
+        }
+
+        .deeper-why p {
+            font-weight: 300;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                padding: 80px 30px 60px;
+            }
+            
+            .hero h1 {
+                font-size: 2.8em;
+            }
+            
+            .hero .subtitle {
+                font-size: 1.2em;
+            }
+            
+            .stats {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                margin-top: 40px;
+            }
+            
+            .journey-container {
+                padding: 50px 30px;
+            }
+            
+            .download-section {
+                padding: 60px 30px;
+            }
+            
+            .container {
+                padding: 0;
+            }
+            
+            .step h2 {
+                font-size: 2.2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="hero">
+            <h1>The Why Method</h1>
+            <p class="subtitle">Discover the deeper purpose that will transform your goals into unstoppable momentum</p>
+            
+            <div class="stats">
+                <div class="stat">
+                    <span class="stat-number">10x</span>
+                    <div class="stat-text">more likely to achieve goals when you understand your deeper "why"</div>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">#1</span>
+                    <div class="stat-text">predictor of success - clarity of purpose outperforms willpower, talent, and resources</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="journey-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+
+            <!-- Step 1: Goal Setting -->
+            <div class="step active" id="step1">
+                <h2>What Change Are You Wanting to Make?</h2>
+                <p>Every transformation begins with a clear intention. Whether it's athletic training, writing a book, building a business, or any personal goal - let's get specific about what you want to achieve.</p>
+                
+                <div class="input-group">
+                    <label for="goal">Describe the change or goal you want to pursue:</label>
+                    <textarea id="goal" placeholder="Be as specific as possible. Instead of 'get fit,' try 'complete my first marathon in under 4 hours' or 'write and publish a 50,000-word novel about...'"></textarea>
+                </div>
+
+                <button class="btn" onclick="nextStep(1)">Continue to Your Why</button>
+            </div>
+
+            <!-- Step 2: Surface Why -->
+            <div class="step" id="step2">
+                <h2>Why Does This Matter to You?</h2>
+                <p>Now let's explore your initial motivation. This is your surface-level "why" - the first answer that comes to mind when someone asks why this goal is important to you.</p>
+                
+                <div class="input-group">
+                    <label for="surfaceWhy">Why do you want to achieve this goal?</label>
+                    <textarea id="surfaceWhy" placeholder="Don't overthink this - write your first, honest response. Common answers include 'for my family,' 'to be healthier,' 'to prove I can do it,' etc."></textarea>
+                </div>
+
+                <button class="btn" onclick="nextStep(2)">Dig Deeper</button>
+            </div>
+
+            <!-- Step 3: Deeper Why -->
+            <div class="step" id="step3">
+                <h2>Let's Go Deeper</h2>
+                <p>Your initial "why" is just the beginning. The real power lies beneath the surface. Let's excavate the deeper truth that will sustain you when motivation fades and obstacles arise.</p>
+                
+                <div class="deeper-why">
+                    <h3>Reflect on these questions:</h3>
+                    <p>• What would achieving this goal prove about who you are as a person?<br>
+                    • What pain or frustration would remain unresolved if you don't pursue this?<br>
+                    • How would your life feel different - not just look different - if you succeeded?<br>
+                    • What example would you be setting, and for whom?</p>
+                </div>
+
+                <div class="input-group">
+                    <label for="deeperWhy">What's driving you at the deepest level?</label>
+                    <textarea id="deeperWhy" placeholder="Go beyond the obvious. What's the underlying need, fear, aspiration, or value that makes this goal essential to who you're becoming?"></textarea>
+                </div>
+
+                <div class="input-group">
+                    <label for="consequences">What happens if you don't pursue this goal?</label>
+                    <textarea id="consequences" placeholder="What would you lose? What regret would you carry? How would you feel about yourself?"></textarea>
+                </div>
+
+                <button class="btn" onclick="generateWorksheet()">Get Your Personal Why Method Worksheet</button>
+            </div>
+
+            <!-- Step 4: Download -->
+            <div class="step" id="step4">
+                <div class="download-section">
+                    <h2>Your Why Method Worksheet is Ready</h2>
+                    <p>Based on your responses, we've created a personalized 7-day journal practice designed to deepen your understanding and strengthen your commitment to your goal.</p>
+                    <a href="#" class="download-btn" id="downloadBtn" onclick="downloadWorksheet()">Download Your Worksheet</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+        let userData = {};
+
+        function nextStep(step) {
+            // Collect data from current step
+            if (step === 1) {
+                const goal = document.getElementById('goal').value.trim();
+                if (!goal) {
+                    alert('Please describe your goal before continuing.');
+                    return;
+                }
+                userData.goal = goal;
+            } else if (step === 2) {
+                const surfaceWhy = document.getElementById('surfaceWhy').value.trim();
+                if (!surfaceWhy) {
+                    alert('Please share your initial why before continuing.');
+                    return;
+                }
+                userData.surfaceWhy = surfaceWhy;
+            }
+
+            // Hide current step
+            document.getElementById(`step${currentStep}`).classList.remove('active');
+            
+            // Show next step
+            currentStep++;
+            document.getElementById(`step${currentStep}`).classList.add('active');
+            
+            // Update progress bar
+            const progress = (currentStep - 1) * 33.33;
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
+
+        function generateWorksheet() {
+            const deeperWhy = document.getElementById('deeperWhy').value.trim();
+            const consequences = document.getElementById('consequences').value.trim();
+            
+            if (!deeperWhy || !consequences) {
+                alert('Please complete both reflection questions before generating your worksheet.');
+                return;
+            }
+            
+            userData.deeperWhy = deeperWhy;
+            userData.consequences = consequences;
+            
+            // Move to download step
+            document.getElementById(`step${currentStep}`).classList.remove('active');
+            currentStep++;
+            document.getElementById(`step${currentStep}`).classList.add('active');
+            document.getElementById('progressFill').style.width = '100%';
+        }
+
+        function downloadWorksheet() {
+            // Create the PDF content
+            const pdfContent = generatePDFContent();
+            
+            // Create and download the file
+            const blob = new Blob([pdfContent], { type: 'text/html' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'The-Why-Method-Worksheet.html';
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+        }
+
+        function generatePDFContent() {
+            return `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Why Method - Personal Worksheet</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #f5f3f0 0%, #e8e4df 100%);
+            color: #2c2c2c;
+            line-height: 1.6;
+            padding: 40px 20px;
+        }
+        
+        .worksheet {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            font-weight: 300;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 50px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid #e0d5c7;
+        }
+        
+        .section:last-child {
+            border-bottom: none;
+        }
+        
+        .section h2 {
+            color: #d4af37;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            font-weight: 400;
+        }
+        
+        .section h3 {
+            color: #2c2c2c;
+            font-size: 1.3em;
+            margin: 25px 0 15px 0;
+            font-weight: 600;
+        }
+        
+        .user-response {
+            background: #f8f6f3;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #d4af37;
+            margin: 15px 0;
+            font-style: italic;
+        }
+        
+        .prompt {
+            background: #2c2c2c;
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .prompt h4 {
+            color: #d4af37;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        
+        .journal-space {
+            border: 2px dashed #d4af37;
+            padding: 30px;
+            margin: 15px 0;
+            border-radius: 10px;
+            min-height: 120px;
+            background: #fefefe;
+        }
+        
+        .journal-space::before {
+            content: "Write your reflection here...";
+            color: #999;
+            font-style: italic;
+        }
+        
+        .key-insights {
+            background: linear-gradient(135deg, #2c2c2c 0%, #1a1a1a 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+        
+        .key-insights h3 {
+            color: #d4af37;
+            margin-bottom: 20px;
+        }
+        
+        .key-insights ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .key-insights li {
+            margin: 10px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .key-insights li::before {
+            content: "→";
+            color: #d4af37;
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+        
+        @media print {
+            body {
+                background: white;
+            }
+            .worksheet {
+                box-shadow: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="worksheet">
+        <div class="header">
+            <h1>The Why Method</h1>
+            <p>Your Personal 7-Day Journey to Uncover Your Deeper Purpose</p>
+        </div>
+        
+        <div class="content">
+            <div class="section">
+                <h2>Your Goal & Why Foundation</h2>
+                
+                <h3>Your Goal:</h3>
+                <div class="user-response">${userData.goal}</div>
+                
+                <h3>Your Initial Why:</h3>
+                <div class="user-response">${userData.surfaceWhy}</div>
+                
+                <h3>Your Deeper Why:</h3>
+                <div class="user-response">${userData.deeperWhy}</div>
+                
+                <h3>What You're Moving Away From:</h3>
+                <div class="user-response">${userData.consequences}</div>
+            </div>
+            
+            <div class="section">
+                <h2>7-Day Journal Practice</h2>
+                <p>Complete one prompt each day. Return to these questions when motivation wanes or obstacles arise. Your why will evolve and deepen with time.</p>
+                
+                <div class="prompt">
+                    <h4>Day 1: The Origin Story</h4>
+                    <p>When did you first realize this goal mattered to you? Write about the moment, experience, or gradual awareness that planted this seed. What were you feeling? What did you notice about yourself or your life that made this goal feel necessary?</p>
+                </div>
+                <div class="journal-space"></div>
+                
+                <div class="prompt">
+                    <h4>Day 2: The Identity Shift</h4>
+                    <p>Who do you need to become to achieve this goal? Describe the version of yourself that has already succeeded. How do they think differently? What habits do they have? What do they believe about themselves that you're still learning to believe?</p>
+                </div>
+                <div class="journal-space"></div>
+                
+                <div class="prompt">
+                    <h4>Day 3: The Ripple Effect</h4>
+                    <p>How will achieving this goal impact others in your life? Consider your family, friends, community, and even strangers who might be inspired by your example. What permission are you giving others by pursuing this path?</p>
+                </div>
+                <div class="journal-space"></div>
+                
+                <div class="prompt">
+                    <h4>Day 4: The Fear Beneath</h4>
+                    <p>What are you most afraid of in pursuing this goal? Go beyond fear of failure - what would success mean about you? What old stories about yourself would you have to let go of? What would you have to forgive yourself for?</p>
+                </div>
+                <div class="journal-space"></div>
+                
+                <div class="prompt">
+                    <h4>Day 5: The Non-Negotiable</h4>
+                    <p>When this goal gets difficult (and it will), what aspect of your why is absolutely non-negotiable? What part of this journey connects to your core values in a way that makes quitting feel like betraying yourself?</p>
+                </div>
+                <div class="journal-space"></div>
+                
+                <div class="prompt">
+                    <h4>Day 6: The Legacy Question</h4>
+                    <p>Imagine you're at the end of your life, looking back. If you don't pursue this goal, what will you regret? If you do pursue it - regardless of the outcome - what will you be proud of? What story do you want to tell about who you were and what you stood for?</p>
+                </div>
+                <div class="journal-space"></div>
+                
+                <div class="prompt">
+                    <h4>Day 7: The Daily Anchor</h4>
+                    <p>Distill your why into a single sentence or phrase that you can recall in moments of doubt. This is your anchor - the truth that brings you back to your purpose when the world tries to convince you to settle for less.</p>
+                </div>
+                <div class="journal-space"></div>
+            </div>
+            
+            <div class="key-insights">
+                <h3>Key Insights for Your Journey</h3>
+                <ul>
+                    <li><strong>Clarity beats intensity:</strong> A clear why will carry you further than bursts of motivated action</li>
+                    <li><strong>Your why evolves:</strong> Return to these questions monthly as your understanding deepens</li>
+                    <li><strong>Process over outcome:</strong> Focus on who you're becoming through the pursuit, not just what you're achieving</li>
+                    <li><strong>Resistance is information:</strong> When you feel like quitting, that's often when you're closest to breakthrough</li>
+                    <li><strong>Purpose is personal:</strong> Your why doesn't need to make sense to anyone else - it just needs to be true for you</li>
+                </ul>
+            </div>
+            
+            <div class="section">
+                <h2>Monthly Check-In Questions</h2>
+                <p>Review these questions once per month to stay connected to your deeper purpose:</p>
+                
+                <div class="prompt">
+                    <h4>Alignment Check</h4>
+                    <p>Are my daily actions moving me toward or away from my goal? What needs to change?</p>
+                </div>
+                
+                <div class="prompt">
+                    <h4>Why Refinement</h4>
+                    <p>How has my understanding of why this matters evolved? What new layers have I discovered?</p>
+                </div>
+                
+                <div class="prompt">
+                    <h4>Obstacle Reframe</h4>
+                    <p>What challenges am I facing, and how can I view them as opportunities to strengthen my commitment?</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>`;
+        }
+    </script>
+</body>
+</html>
