@@ -581,37 +581,8 @@
             doc.text('Complete one prompt each day. Return to these questions when motivation wanes.', 20, yPos);
             yPos += 15;
 
-            // Journal prompts
-            const prompts = [
-                {
-                    day: 'Day 1: The Origin Story',
-                    text: 'When did you first realize this goal mattered to you? Write about the moment, experience, or gradual awareness that planted this seed. What were you feeling?'
-                },
-                {
-                    day: 'Day 2: The Identity Shift',
-                    text: 'Who do you need to become to achieve this goal? Describe the version of yourself that has already succeeded. How do they think differently?'
-                },
-                {
-                    day: 'Day 3: The Ripple Effect',
-                    text: 'How will achieving this goal impact others in your life? What permission are you giving others by pursuing this path?'
-                },
-                {
-                    day: 'Day 4: The Fear Beneath',
-                    text: 'What are you most afraid of in pursuing this goal? Go beyond fear of failure - what would success mean about you?'
-                },
-                {
-                    day: 'Day 5: The Non-Negotiable',
-                    text: 'When this goal gets difficult, what aspect of your why is absolutely non-negotiable? What connects to your core values?'
-                },
-                {
-                    day: 'Day 6: The Legacy Question',
-                    text: 'Imagine you\'re at the end of your life, looking back. If you don\'t pursue this goal, what will you regret?'
-                },
-                {
-                    day: 'Day 7: The Daily Anchor',
-                    text: 'Distill your why into a single sentence that you can recall in moments of doubt. This is your anchor.'
-                }
-            ];
+            // Journal prompts - personalized based on user input
+            const prompts = generatePersonalizedPrompts(userData);
 
             prompts.forEach((prompt, index) => {
                 if (yPos > 250) {
@@ -655,13 +626,7 @@
             doc.text('Key Insights for Your Journey', 20, yPos);
             yPos += 15;
 
-            const insights = [
-                'Clarity beats intensity: A clear why will carry you further than bursts of motivated action',
-                'Your why evolves: Return to these questions monthly as your understanding deepens',
-                'Process over outcome: Focus on who you\'re becoming through the pursuit',
-                'Resistance is information: When you feel like quitting, you\'re often closest to breakthrough',
-                'Purpose is personal: Your why doesn\'t need to make sense to anyone else'
-            ];
+            const insights = generatePersonalizedInsights(userData);
 
             doc.setTextColor(...darkColor);
             doc.setFontSize(10);
@@ -675,6 +640,203 @@
 
             // Save the PDF
             doc.save('The-Why-Method-Worksheet.pdf');
+        }
+
+        function generatePersonalizedPrompts(userData) {
+            const goal = userData.goal.toLowerCase();
+            const deeperWhy = userData.deeperWhy.toLowerCase();
+            
+            // Detect goal categories
+            const isPhysical = goal.includes('marathon') || goal.includes('fitness') || goal.includes('training') || goal.includes('athletic') || goal.includes('workout') || goal.includes('weight') || goal.includes('strength') || goal.includes('run') || goal.includes('gym') || goal.includes('exercise');
+            
+            const isCreative = goal.includes('write') || goal.includes('book') || goal.includes('art') || goal.includes('music') || goal.includes('creative') || goal.includes('paint') || goal.includes('design') || goal.includes('film') || goal.includes('story') || goal.includes('novel') || goal.includes('blog');
+            
+            const isBusiness = goal.includes('business') || goal.includes('career') || goal.includes('company') || goal.includes('entrepreneur') || goal.includes('launch') || goal.includes('startup') || goal.includes('income') || goal.includes('sales') || goal.includes('profit');
+            
+            const isLearning = goal.includes('learn') || goal.includes('study') || goal.includes('degree') || goal.includes('skill') || goal.includes('course') || goal.includes('education') || goal.includes('master') || goal.includes('certification');
+            
+            const isRelationship = goal.includes('relationship') || goal.includes('family') || goal.includes('marriage') || goal.includes('parenting') || goal.includes('connection') || goal.includes('community');
+
+            // Detect deeper why themes
+            const isProving = deeperWhy.includes('prove') || deeperWhy.includes('show') || deeperWhy.includes('demonstrate');
+            const isHealing = deeperWhy.includes('heal') || deeperWhy.includes('overcome') || deeperWhy.includes('past') || deeperWhy.includes('trauma');
+            const isExample = deeperWhy.includes('example') || deeperWhy.includes('inspire') || deeperWhy.includes('children') || deeperWhy.includes('family');
+            const isFreedom = deeperWhy.includes('freedom') || deeperWhy.includes('independent') || deeperWhy.includes('control') || deeperWhy.includes('choice');
+
+            let prompts = [
+                {
+                    day: 'Day 1: The First Whisper',
+                    text: ''
+                },
+                {
+                    day: 'Day 2: The Future Self',
+                    text: ''
+                },
+                {
+                    day: 'Day 3: The Morning Pages',
+                    text: ''
+                },
+                {
+                    day: 'Day 4: The Shadow Work',
+                    text: ''
+                },
+                {
+                    day: 'Day 5: The Crucible Moment',
+                    text: ''
+                },
+                {
+                    day: 'Day 6: The Ripple Effect',
+                    text: ''
+                },
+                {
+                    day: 'Day 7: The Sacred Practice',
+                    text: ''
+                }
+            ];
+
+            // Day 1: Origin story tailored to goal type
+            if (isPhysical) {
+                prompts[0].text = `Think back to the first time you felt disconnected from your physical body or witnessed someone embody the ${goal.includes('marathon') ? 'endurance' : 'strength'} you crave. Write about that moment when you realized your body was capable of more than you were asking of it. What did that awakening feel like in your chest, your gut?`;
+            } else if (isCreative) {
+                prompts[0].text = `When did you first feel the creative spark that lies dormant in pursuit of ${userData.goal}? Write about the moment you realized you had something unique to express - perhaps when you saw a ${goal.includes('write') ? 'piece of writing' : 'work of art'} and thought "I could do that differently." What was your body telling you in that moment?`;
+            } else if (isBusiness) {
+                prompts[0].text = `Recall the moment you first imagined the freedom and impact that achieving ${userData.goal} could bring. Was it seeing someone else's success, feeling trapped in your current situation, or recognizing an opportunity others missed? Write about what your nervous system was telling you - excitement, urgency, or something else?`;
+            } else {
+                prompts[0].text = `When did the seed of ${userData.goal} first plant itself in your consciousness? Write about the precise moment - whether sudden or gradual - when you realized this path was calling you. What was your body feeling? What internal voice spoke up?`;
+            }
+
+            // Day 2: Identity work based on deeper why themes
+            if (isProving) {
+                prompts[1].text = `You mentioned wanting to prove something. Write a detailed letter to the version of yourself who has achieved ${userData.goal}. What do they no longer need to prove? How do they carry themselves differently? What stories about worthiness have they released? Most importantly, what would they whisper to you right now about your inherent value?`;
+            } else if (isHealing) {
+                prompts[1].text = `Your deeper why suggests healing. Imagine the version of yourself who has achieved ${userData.goal} and, in doing so, has integrated their past. How do they speak about their journey? What relationship do they have with their former pain? Write as if they're mentoring you - what would they say about using this goal as medicine?`;
+            } else {
+                prompts[1].text = `Close your eyes and step into the identity of someone who has already achieved ${userData.goal}. How do they start their mornings? What do they believe about challenge and resistance? Write a day-in-the-life from their perspective, paying attention to their internal dialogue and how they make decisions.`;
+            }
+
+            // Day 3: Stream of consciousness morning pages style
+            prompts[2].text = `Set a timer for 20 minutes and write continuously without stopping about ${userData.goal}. Don't edit, don't pause, don't worry about making sense. Let your hand move and capture whatever arises - fears, excitement, random thoughts, grocery lists, anything. When resistance appears, write about the resistance. This is about clearing mental static to hear your deeper wisdom.`;
+
+            // Day 4: Shadow work inspired by psychological approaches
+            if (isPhysical) {
+                prompts[3].text = `What story are you telling yourself about your body that keeps you from fully committing to ${userData.goal}? Write about the voice that says you're "not athletic" or "too old" or "not disciplined enough." Where did this voice come from? What would happen if you discovered this story was just that - a story, not truth?`;
+            } else if (isCreative) {
+                prompts[3].text = `What are you afraid others will discover about you through your pursuit of ${userData.goal}? That you're not as talented as you pretend? That you have something important to say? That you're more sensitive than you show? Write about the terror and the gift of being truly seen through your creative expression.`;
+            } else {
+                prompts[3].text = `What part of pursuing ${userData.goal} terrifies you most? Not the obvious fears, but the ones that live in your bones. The fear of your own power? Of outgrowing your current identity? Of discovering you're capable of more than you've allowed yourself to be? Write until you find the fear beneath the fear.`;
+            }
+
+            // Day 5: Stress testing commitment like an endurance coach would
+            if (isPhysical) {
+                prompts[4].text = `Imagine you're 6 months into pursuing ${userData.goal}. It's raining, you're tired, your body aches, and every fiber wants to quit. What truth about your deeper why gets you moving anyway? Write about the non-negotiable core that remains when all motivation has fled. This is your bedrock - what is it?`;
+            } else {
+                prompts[4].text = `You're deep in the messy middle of ${userData.goal}. Progress feels invisible, doubt is screaming, and quitting would be so much easier. What aspect of your deeper purpose makes surrender feel like betrayal? Write about the part of your why that exists beyond feelings, beyond circumstances, beyond temporary discomfort.`;
+            }
+
+            // Day 6: Ripple effect and legacy
+            if (isExample) {
+                prompts[5].text = `You mentioned wanting to be an example. Write about the specific people watching your journey - your children, friends, or community. How will your commitment to ${userData.goal} give them permission to pursue their own dreams? What would their lives look like if your courage activated theirs?`;
+            } else {
+                prompts[5].text = `Consider the version of the world where you fully commit to ${userData.goal} versus one where you don't. Write about the ripple effects of each choice. How does your pursuit change not just your life, but the lives of those around you? What conversations become possible? What example do you set?`;
+            }
+
+            // Day 7: Daily practice and ritual
+            if (isPhysical) {
+                prompts[6].text = `Create a pre-training ritual that connects you to your deeper why. It might be a phrase you repeat, a visualization, or a physical gesture. Write about this practice and how it will serve as your bridge between the motivated self and the committed self. How will you honor this goal daily, especially when you don't feel like it?`;
+            } else if (isCreative) {
+                prompts[6].text = `Design a daily creative practice that honors your commitment to ${userData.goal}. This isn't about productivity - it's about devotion. What small, daily act will keep you connected to your creative truth? Write about this practice as a form of prayer, a way of saying "yes" to your deeper calling each day.`;
+            } else {
+                prompts[6].text = `Distill your commitment to ${userData.goal} into a daily practice that takes less than 5 minutes but connects you to your deepest why. This is your anchor - a ritual that reminds you who you're becoming and why it matters. What is this practice, and how will it serve as your North Star on difficult days?`;
+            }
+
+            return prompts;
+        }
+
+        function generatePersonalizedInsights(userData) {
+            const goal = userData.goal.toLowerCase();
+            const deeperWhy = userData.deeperWhy.toLowerCase();
+            const surfaceWhy = userData.surfaceWhy.toLowerCase();
+            
+            // Detect patterns
+            const isPhysical = goal.includes('marathon') || goal.includes('fitness') || goal.includes('training') || goal.includes('athletic') || goal.includes('workout') || goal.includes('weight') || goal.includes('strength') || goal.includes('run') || goal.includes('gym') || goal.includes('exercise');
+            
+            const isCreative = goal.includes('write') || goal.includes('book') || goal.includes('art') || goal.includes('music') || goal.includes('creative') || goal.includes('paint') || goal.includes('design') || goal.includes('film') || goal.includes('story') || goal.includes('novel') || goal.includes('blog');
+            
+            const isBusiness = goal.includes('business') || goal.includes('career') || goal.includes('company') || goal.includes('entrepreneur') || goal.includes('launch') || goal.includes('startup') || goal.includes('income') || goal.includes('sales') || goal.includes('profit');
+            
+            const isLearning = goal.includes('learn') || goal.includes('study') || goal.includes('degree') || goal.includes('skill') || goal.includes('course') || goal.includes('education') || goal.includes('master') || goal.includes('certification');
+
+            // Deeper why themes
+            const isProving = deeperWhy.includes('prove') || deeperWhy.includes('show') || deeperWhy.includes('demonstrate') || surfaceWhy.includes('prove');
+            const isHealing = deeperWhy.includes('heal') || deeperWhy.includes('overcome') || deeperWhy.includes('past') || deeperWhy.includes('trauma') || deeperWhy.includes('pain');
+            const isExample = deeperWhy.includes('example') || deeperWhy.includes('inspire') || deeperWhy.includes('children') || deeperWhy.includes('family') || deeperWhy.includes('kids');
+            const isFreedom = deeperWhy.includes('freedom') || deeperWhy.includes('independent') || deeperWhy.includes('control') || deeperWhy.includes('choice') || deeperWhy.includes('escape');
+            const isIdentity = deeperWhy.includes('become') || deeperWhy.includes('identity') || deeperWhy.includes('who i am') || deeperWhy.includes('person');
+            const isPerfectionist = surfaceWhy.includes('perfect') || deeperWhy.includes('perfect') || deeperWhy.includes('best') || deeperWhy.includes('excel');
+
+            let insights = [];
+
+            // Core universal insight with personal twist
+            if (isPhysical) {
+                insights.push('Your body keeps the score: Physical goals reveal mental patterns. Notice what your resistance is teaching you about your relationship with discomfort');
+            } else if (isCreative) {
+                insights.push('Creative blocks are protection mechanisms: When you can\'t create, ask what your psyche is trying to protect you from. Often it\'s the fear of your own power');
+            } else if (isBusiness) {
+                insights.push('Business goals are identity work in disguise: You\'re not just building a venture, you\'re discovering who you become when you bet on yourself');
+            } else {
+                insights.push('Clarity beats intensity: A clear why will carry you further than bursts of motivated action, especially when motivation inevitably fades');
+            }
+
+            // Insight based on deeper why theme
+            if (isProving) {
+                insights.push('You have nothing to prove, but everything to express: Shift from proving your worth to expressing your truth. The goal becomes a vehicle for self-expression, not validation');
+            } else if (isHealing) {
+                insights.push('Your goal is medicine: This pursuit isn\'t just about achievement - it\'s about integration. Let the process heal what needs healing');
+            } else if (isExample) {
+                insights.push('Your courage gives others permission: Children and communities learn more from what you do than what you say. Your commitment ripples outward');
+            } else if (isFreedom) {
+                insights.push('Freedom requires discipline: The very constraints and commitment this goal demands will ultimately liberate you from smaller limitations');
+            } else if (isIdentity) {
+                insights.push('Identity follows action: You don\'t need to feel like "that type of person" before starting. Become through doing, not thinking');
+            }
+
+            // Process-oriented insight
+            if (isPhysical) {
+                insights.push('Adaptation happens in recovery: Your body (and mind) grow stronger during rest, not just during effort. Honor both phases of the cycle');
+            } else if (isCreative) {
+                insights.push('Trust the process over the product: Focus on showing up to create, not on creating something perfect. Quantity leads to quality');
+            } else {
+                insights.push('Process over outcome: Focus on who you\'re becoming through the pursuit. The goal is just the excuse to become that person');
+            }
+
+            // Resistance insight
+            if (isPerfectionist) {
+                insights.push('Perfectionism is procrastination in fancy clothes: Done is better than perfect. Your standards are often excuses to avoid being seen');
+            } else if (isPhysical) {
+                insights.push('Resistance is data, not direction: When your body doesn\'t want to train, get curious about what it\'s communicating before deciding to push through or rest');
+            } else {
+                insights.push('Resistance points to what matters most: The things you avoid often contain your greatest growth. Lean toward the discomfort with curiosity');
+            }
+
+            // Evolved why insight
+            if (isHealing || isIdentity) {
+                insights.push('Your why will evolve and deepen: Return to these questions monthly. As you grow, your understanding of why this matters will become more sophisticated');
+            } else {
+                insights.push('Your why is a living thing: It will grow and change as you do. What motivates you at the start may not be what sustains you at the end - and that\'s perfect');
+            }
+
+            // Final wisdom based on goal type
+            if (isPhysical) {
+                insights.push('Listen to your body\'s wisdom: It will tell you the difference between productive discomfort and harmful pain. Learning this distinction is part of your growth');
+            } else if (isCreative) {
+                insights.push('Your creative voice is unique: Stop trying to sound like someone else. The world needs what only you can create, expressed in the way only you can express it');
+            } else if (isBusiness) {
+                insights.push('Serve the vision, not your ego: When decisions get hard, ask what serves the mission, not what makes you look good or feel safe');
+            } else {
+                insights.push('Purpose is personal: Your why doesn\'t need to make sense to anyone else. It just needs to be true enough to sustain you through difficulty');
+            }
+
+            return insights;
         }
     </script>
 </body>
